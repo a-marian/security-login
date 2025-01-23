@@ -3,6 +3,7 @@ package com.spring.security_login.controller;
 import com.spring.security_login.dto.SignupDTO;
 import com.spring.security_login.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,10 @@ public class SignupController {
 
     public ResponseEntity<String> signupCustomer(@RequestBody SignupDTO signupDTO){
         boolean isUserCreated=  (authService.createUser(signupDTO));
-       return ResponseEntity.ok("User created");
+        if(isUserCreated){
+            return ResponseEntity.status(HttpStatus.CREATED).body("User created succesfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not created");
+        }
     }
 }
